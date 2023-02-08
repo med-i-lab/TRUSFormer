@@ -1,0 +1,6 @@
+defaults: 
+  - vicreg_base
+
+backbone_name: resnet10_feature_extractor
+
+batch_size: ${driver.config.datamodule.loader_config.batch_size}

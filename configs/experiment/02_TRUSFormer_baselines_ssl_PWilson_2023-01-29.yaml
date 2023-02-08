@@ -1,0 +1,40 @@
+# @package _global_
+
+defaults:
+  - override /driver: pretrain_tuffc
+  - override /callbacks@driver.config.callbacks: 01_pretrain_ipcai_2023-01-29.yaml
+
+name: "vicreg_pretrain_${split_seed}_seed_${seed}"
+project: TRUSFormer #${oc.env:PROJECT}
+seed: ${oc.env:SEED,0}
+split_seed: ${oc.env:SPLIT_SEED,0}
+
+driver:
+  config:
+
+    callbacks: 
+      model_checkpoint: 
+        monitor: val/ssl/vicreg_loss
+    
+    datamodule:
+      splits:
+        cohort_specifier: ['UVA', 'JH', 'CRCEO', 'PCC', 'PMCC']
+        merge_val_centers: True
+        merge_test_centers: True
+      
+      loader_config: 
+        balance_classes_train: true
+      
+      minimum_involvement: 0.4
+
+      patch_view_config: 
+        needle_region_only: True 
+        prostate_region_only: False 
+        patch_strides: [1, 1]
+
+    trainer: 
+      min_epochs: 200 
+
+    logger:
+      wandb: 
+        group: SSL_baselines

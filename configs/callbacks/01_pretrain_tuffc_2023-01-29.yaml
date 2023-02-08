@@ -1,0 +1,54 @@
+
+# handles callbacks for tuffc, with online evaluation done individually for each center
+
+defaults: 
+  - /callbacks/online_eval@online_finetune_train_uva: online_finetune
+  - /callbacks/online_eval@online_evaluation_train_uva: online_evaluation
+  - /callbacks/online_eval@control_train_uva: control
+  - /callbacks/online_eval@online_finetune_train_crceo: online_finetune
+  - /callbacks/online_eval@online_evaluation_train_crceo: online_evaluation
+  - /callbacks/online_eval@control_train_crceo: control
+  - override /datamodule/splits@online_finetune_train_crceo.datamodule.splits: train_crceo_test_both
+  - override /datamodule/splits@online_evaluation_train_crceo.datamodule.splits: train_crceo_test_both
+  - override /datamodule/splits@control_train_crceo.datamodule.splits: train_crceo_test_both
+  
+online_finetune_train_crceo: 
+  prefix: 
+    online_finetune_train_crceo
+online_evaluation_train_crceo: 
+  prefix: 
+    lin_eval_train_crceo
+control_train_crceo: 
+  prefix: 
+    control_train_crceo
+
+#  - override /datamodule/splits@online_evaluation.datamodule.splits: ${driver.config.datamodule.splits} # not tested
+       
+#log_dataset_info: 
+#  _target_: src.lightning.callbacks.log_dataset_info.LogDatasetInfo
+      
+model_checkpoint:
+  _target_: pytorch_lightning.callbacks.ModelCheckpoint
+  monitor: vicreg_validation/vicreg_loss # name of the logged metric which determines when model is improving
+  mode: "min" # "max" means higher metric value is better, can be also "min"
+  save_top_k: 1 # save k best models (determined by above metric)
+  save_last: True # additionaly always save model from last epoch
+  verbose: False
+  dirpath: checkpoints/
+  filename: "epoch_{epoch:03d}"
+  auto_insert_metric_name: False
+
+model_summary:
+  _target_: pytorch_lightning.callbacks.RichModelSummary
+  max_depth: -1
+
+progress_bar: 
+  _target_: pytorch_lightning.callbacks.TQDMProgressBar
+  #_target_: pytorch_lightning.callbacks.RichProgressBar
+
+#logger_checkpoint: 
+#  _target_: src.lightning.callbacks.wandb_checkpoint.WandbLoggerCheckpoint
+
+learning_rate_monitor: 
+  _target_: pytorch_lightning.callbacks.LearningRateMonitor
+

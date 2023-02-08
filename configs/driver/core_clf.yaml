@@ -1,0 +1,34 @@
+
+defaults: 
+  - core_clf_base
+  - /datamodule@config.core_dm: concatenated_cores
+  #- /datamodule@config.patch_dm: sl_datamodule
+  - /model@config.seq_model: attn_core_clf
+
+config: 
+  
+  feat_extractor: 
+    _target_: src.modeling.registry.create_model
+    #model_name: vicreg_resnet10_pretrn_allcntrs_noPrst_ndl_crop
+    #split_seed: ${split_seed}
+    model_name: vicreg_resnet_10_crops_split_seed_2
+
+  #patch_dm: 
+  #  splits: 
+  #    merge_val_centers: yes
+  #    merge_test_centers: yes 
+  
+  core_dm: 
+    splits: 
+      merge_val_centers: yes 
+      merge_test_centers: yes
+  
+  device: cuda:0
+
+  logging_options: 
+    run_name: ${name}
+    run_id: ${id}
+
+  seed: 0
+
+

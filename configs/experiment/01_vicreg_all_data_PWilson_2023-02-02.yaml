@@ -1,0 +1,26 @@
+# @package _global_
+
+defaults:
+  - /driver: vicreg
+  - /callbacks/online_eval@driver.config.callbacks.linear_evaluation: lin_eval_all_patients_balanced
+  # - override /datamodule/splits@driver.config.datamodule.splits: uva600.yaml
+
+driver: 
+  config: 
+    model: 
+      backbone_name: "resnet18_feature_extractor"
+    trainer: 
+      devices: [0,]
+    datamodule: 
+      loader_config: 
+        batch_size: 256
+        num_workers: 16
+        balance_classes_train: False
+
+
+seed: 0
+split_seed: 0
+tracked_metric: "val/ssl/vicreg_loss"
+project: vicreg
+name: vicreg_big
+run_id: big_vicreg_experiment 

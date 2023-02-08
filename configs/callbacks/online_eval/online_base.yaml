@@ -1,0 +1,14 @@
+
+_target_: src.lightning.callbacks.online_evaluation.OnlineEvaluation
+
+defaults:
+  - base
+  - _self_
+  - override /datamodule/splits@datamodule.splits: train_uva_test_both
+  
+evaluate_every_n_epochs: 20
+evaluate_once_on_epoch: null
+
+monitored_metric: "patch_UVA_auroc"
+finetune: false
+prefix: lin_eval_train_uva

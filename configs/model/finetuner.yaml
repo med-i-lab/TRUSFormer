@@ -1,0 +1,6 @@
+defaults:
+  - finetuner_base
+
+_target_: src.lightning.lightning_modules.self_supervised.finetune.Finetuner
+
+

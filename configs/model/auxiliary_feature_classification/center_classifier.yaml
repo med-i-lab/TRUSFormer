@@ -1,0 +1,11 @@
+defaults: 
+  - override /model@_here_: center_classifier_base
+
+backbone:  
+  
+  _target_: src.lightning.lightning_modules.self_supervised.vicreg.VICRegWithCenterDisc.load_from_checkpoint
+  checkpoint_path: ${named_checkpoint:vicreg_uva_and_crceo_pretrain}
+
+
+finetune: false
+

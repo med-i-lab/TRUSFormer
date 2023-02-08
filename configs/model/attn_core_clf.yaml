@@ -1,0 +1,14 @@
+
+_target_: src.modeling.seq_models.ExactSeqModel
+
+pool_mode: "mean"
+in_feats: 512
+feature_reduction: null
+hidden_size: 512
+num_layers: 12
+num_attn_heads: 4
+intermediate_size: 512
+patch_dropout: 0.1
+inner_dropout: 0.1
+use_pos_embeddings: True
+grid_shape: [28, 46]

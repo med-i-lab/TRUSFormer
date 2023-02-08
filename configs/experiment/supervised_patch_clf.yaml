@@ -1,0 +1,33 @@
+# @package _global_
+
+defaults:
+  - override /driver: supervised
+  - override /datamodule@driver.config.datamodule: sl_datamodule
+  - override /datamodule/transform@driver.config.datamodule.patch_transform_train: crops_plus_ultrasound_augs_light
+
+split_seed: 2 #${oc.env:SPLIT_SEED}
+seed: 0 #${oc.env:SEED}
+
+driver: 
+
+  config: 
+    seed: ${seed}
+    opt_config: 
+      learning_rate: 1e-4
+      scheduler_options: 
+        warmup_epochs: 10
+        warmup_start_lr: 0
+        min_lr: 0
+        final_lr: 0.0
+        scheduler_type: "warmup_cosine"
+        max_epochs: 200
+    
+    model: 
+      _target_: src.modeling.registry.create_model
+      model_name: resnet10
+
+    training_options: 
+      num_epochs: 200
+      accumulate_grad_batches: 1
+
+name: test

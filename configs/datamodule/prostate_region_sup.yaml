@@ -1,0 +1,20 @@
+defaults:
+  - patch_datamodule_base
+  - transform@patch_transform_train: no_augs
+  - transform@patch_transform_eval: no_augs
+  - splits: all_centers
+  - _self_
+
+_target_: src.lightning.datamodules.exact_datamodule.PatchDataModuleForSupervisedLearning
+
+loader_config:
+  batch_size: 32
+
+patch_view_config: 
+  needle_region_only: false
+  prostate_region_only: true
+
+splits: 
+  cohort_specifier: ['CRCEO428', "UVA600"]
+  undersample_benign_eval: true
+  

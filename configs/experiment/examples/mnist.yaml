@@ -1,0 +1,9 @@
+# @package _global_
+
+name: mnist
+
+driver: 
+  _target_: src.driver.example.MNISTExample
+  device: cuda
+  batch_size: 64
+  num_epochs: 10

@@ -1,0 +1,9 @@
+defaults:
+  - override /model@_here_: random_patient_division_classifier_base
+
+backbone:  
+  #_target_: src.modeling.registry.create_model
+  #model_name: resnet10_feature_extractor
+
+  _target_: src.lightning.lightning_modules.self_supervised.vicreg.VICRegWithCenterDisc.load_from_checkpoint
+  checkpoint_path: /home/paulw/projects/TRUSnet-1/logs/experiments/runs/prtrn_uva_eval_uva_needle_only_split_seed_2_seed_0/2022-12-06_18-36-03/checkpoints/lin_eval_train_uva_online_best_patch_UVA_auroc_0.586.ckpt 

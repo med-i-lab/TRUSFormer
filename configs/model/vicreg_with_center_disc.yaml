@@ -1,0 +1,11 @@
+
+defaults: 
+  - vicreg_with_disc_base
+  - /losses@disc_options.disc_criterion: center_disc_loss
+
+backbone: 
+  _target_: src.modeling.registry.create_model
+  model_name: resnet10_feature_extractor
+
+
+

@@ -1,0 +1,12 @@
+_target_: pytorch_lightning.Trainer
+
+gpus: 1
+devices: [0]
+
+min_epochs: 200
+max_epochs: ${.min_epochs}
+
+limit_train_batches: null
+
+# Experiment will resume automatically if setup with environment variable JOB_ID
+#resume_from_checkpoint: null

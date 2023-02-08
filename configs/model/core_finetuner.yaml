@@ -1,0 +1,8 @@
+defaults: 
+  - core_finetuner_base
+
+backbone:
+  _target_: src.modeling.registry.create_model
+  model_name: vicreg_resnet10_pretrn_allcntrs_noPrst_ndl_crop
+
+num_classes: 2

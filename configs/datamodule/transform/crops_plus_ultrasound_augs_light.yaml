@@ -1,0 +1,11 @@
+defaults:
+  - transform_config_base
+  - _self_
+
+
+us_augmentation: 
+  random_phase_shift: true 
+  random_envelope_distort: true
+
+tensor_transform:
+  random_resized_crop_scale: [0.7, 1]

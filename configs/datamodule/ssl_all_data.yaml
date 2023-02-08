@@ -1,0 +1,20 @@
+
+# TODO this is not tested
+
+defaults:
+  - patch_datamodule_base
+  - transform@patch_transform_train: default
+  - transform@patch_transform_eval: no_augs
+  - splits: all_centers
+  - _self_ 
+
+_target_: src.lightning.datamodules.exact_datamodule.PatchDataModuleForSelfSupervisedLearning
+
+patch_view_config: 
+  needle_region_only: false
+  prostate_region_only: false
+
+splits: 
+  undersample_benign_eval: true
+  undersample_benign_train: false 
+  

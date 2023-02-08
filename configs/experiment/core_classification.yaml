@@ -1,0 +1,66 @@
+# @package _global_
+
+defaults:
+  - override /driver: core_clf
+  - override /datamodule@driver.config.core_dm: concatenated_cores
+  - override /datamodule/transform@driver.config.core_dm.patch_transform_train: crops_plus_ultrasound_augs_light
+
+split_seed: 2 #${oc.env:SPLIT_SEED}
+seed: 0 #${oc.env:SEED}
+
+driver: 
+
+  config: 
+    seed: ${seed}
+    opt_config: 
+      learning_rate: 1e-4
+      scheduler_options: 
+        warmup_epochs: 10
+        warmup_start_lr: 0
+        min_lr: 0
+        final_lr: 0.0
+        scheduler_type: "warmup_cosine"
+        max_epochs: 200
+    
+    feat_extractor: 
+      _target_: src.modeling.registry.create_model
+      #model_name: vicreg_resnet10_pretrn_allcntrs_noPrst_ndl_crop
+      #split_seed: ${split_seed}
+      model_name: vicreg_resnet_10_crops_split_seed_2
+
+    feat_extractor_opt_config: 
+      learning_rate: 3e-5
+      scheduler_options: 
+        warmup_epochs: 30
+        warmup_start_lr: 0
+        min_lr: 0
+        final_lr: 0.0
+        scheduler_type: "warmup_cosine"
+        max_epochs: 200
+
+    start_training_feat_extractor_at_epoch: 0
+
+    training_options: 
+      num_epochs: 200
+      accumulate_grad_batches: 128
+
+    seq_model: 
+      pool_mode: "cls"
+      in_feats: 512
+      feature_reduction: linear
+      hidden_size: 256
+      num_layers: 12
+      num_attn_heads: 8
+      intermediate_size: 256
+      patch_dropout: 0.2
+      inner_dropout: 0.5
+      use_pos_embeddings: True
+      grid_shape: [28, 46]
+
+    core_dm: 
+      splits:
+        train_val_ratio: 0.2
+
+    use_psa_as_feature: yes
+
+name: ssd${split_seed}_gsd${seed}_big_model__psa_as_feature

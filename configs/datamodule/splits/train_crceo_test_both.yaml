@@ -1,0 +1,10 @@
+defaults: 
+ - splits_config_base
+
+cohort_specifier: ['UVA600', 'CRCEO428']
+train_centers: ['CRCEO428']
+merge_train_centers: True 
+merge_val_centers: True 
+merge_test_centers: True
+train_val_split_seed: ${split_seed}
+train_val_ratio: .25

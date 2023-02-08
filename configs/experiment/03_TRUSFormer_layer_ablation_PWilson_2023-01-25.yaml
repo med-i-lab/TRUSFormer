@@ -1,0 +1,57 @@
+# @package _global_
+
+# =====================================
+# Snapshot of best hyperparameter setup so far for core 
+# classification 
+# =====================================
+
+defaults:
+  - /driver: core_clf
+  - override /datamodule/transform@driver.config.core_dm.patch_transform_train: crops_plus_ultrasound_augs_light
+
+split_seed: 2
+
+driver: 
+
+  config: 
+    seed: 0
+    opt_config: 
+      learning_rate: 1e-4
+      scheduler_options: 
+        warmup_epochs: 10
+        warmup_start_lr: 0
+        min_lr: 0
+        final_lr: 0.0
+        scheduler_type: "warmup_cosine"
+        max_epochs: 200
+    
+    feat_extractor_opt_config: 
+      learning_rate: 3e-5
+      scheduler_options: 
+        warmup_epochs: 30
+        warmup_start_lr: 0
+        min_lr: 0
+        final_lr: 0.0
+        scheduler_type: "warmup_cosine"
+        max_epochs: 200
+
+    start_training_feat_extractor_at_epoch: 0
+
+    training_options: 
+      num_epochs: 75
+      accumulate_grad_batches: 128
+
+    seq_model: 
+      pool_mode: "mean"
+      in_feats: 512
+      feature_reduction: linear
+      hidden_size: 256
+      num_layers: 12
+      num_attn_heads: 8
+      intermediate_size: 512
+      patch_dropout: 0.2
+      inner_dropout: 0.2
+      use_pos_embeddings: True
+      grid_shape: [28, 46]
+
+name: inner_dim_256_heads_8_layers_12

@@ -1,0 +1,8 @@
+# @package /callbacks
+
+defaults: 
+
+  - /callbacks/online_eval@online_evaluation: online_evaluation   # add linear evaluation
+  - override /callbacks@_here_: base
+  - override /datamodule@online_evaluation.datamodule: sl_datamodule_ipcai_2023
+

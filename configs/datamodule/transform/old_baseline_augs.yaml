@@ -1,0 +1,9 @@
+defaults: 
+  - transform_config_base
+  - _self_
+
+tensor_transform: 
+  prob: 0.4
+  random_erasing: True 
+  random_affine_translation: [0.2, 0.2]
+  random_resized_crop: False

@@ -1,0 +1,18 @@
+defaults:
+  - patch_datamodule_base
+  - transform@patch_transform_train: no_augs
+  - transform@patch_transform_eval: no_augs
+  - splits: all_centers
+  - _self_
+
+_target_: src.lightning.datamodules.exact_datamodule.PatchesConcatenatedFromCoresDataModule
+
+
+loader_config:
+  batch_size: 1
+  num_workers: 8
+
+
+patch_view_config: 
+  prostate_region_only: False 
+  needle_region_only: True

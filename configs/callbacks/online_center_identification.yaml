@@ -1,0 +1,4 @@
+#defaults: 
+#  - optimization@opt_config: default
+
+_target_: src.lightning.callbacks.online_feature_prediction.ClassifyCenterFromFeatures

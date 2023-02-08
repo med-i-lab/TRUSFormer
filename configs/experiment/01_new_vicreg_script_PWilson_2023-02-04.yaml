@@ -1,0 +1,11 @@
+# @package _global_
+
+name: new_vicreg_test
+
+driver: 
+  _target_: src.driver.vicreg.VICRegExperiment 
+  dataset_name: exact_patches_ssl_all_centers_all_cores_all_patches_v0
+  backbone_name: resnet18_feature_extractor
+  run_id: ${id}
+  batch_size: 256
+  lr: 1e-4

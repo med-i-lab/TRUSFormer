@@ -1,0 +1,18 @@
+# @package _global_
+
+defaults: 
+  - /datamodule@patch_dm: sl_datamodule
+  - /datamodule@core_dm: concatenated_cores
+  - /model@core_model: attn_core_clf
+  - _self_ 
+
+patch_dm: 
+  splits: 
+    merge_val_centers: yes
+    merge_test_centers: yes 
+core_dm: 
+  splits: 
+    merge_val_centers: yes 
+    merge_test_centers: yes
+split_seed: 2
+device: cuda:1

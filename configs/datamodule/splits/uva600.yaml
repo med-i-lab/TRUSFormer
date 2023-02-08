@@ -1,0 +1,7 @@
+defaults: 
+ - splits_config_base
+
+cohort_specifier: [UVA600]
+
+train_val_split_seed: 26
+train_val_ratio: .25

@@ -1,0 +1,37 @@
+# @package _global_
+
+defaults:
+  - override /driver: pretrain
+
+name: "ssl-pretrain_all_data"
+seed: 1
+split_seed: 0
+
+driver:
+  config:
+
+    model: 
+      backbone_name: resnet18_feature_extractor
+
+    datamodule:
+      splits:
+        merge_val_centers: True
+        merge_test_centers: True
+        train_val_split_seed: 0
+      
+      loader_config: 
+        balance_classes_train: false 
+      
+      minimum_involvement: 0
+
+      patch_view_config: 
+        needle_region_only: false
+
+    callbacks:
+      online_evaluation:
+        num_epochs_per_run: 100
+        datamodule:
+          splits:
+            merge_val_centers: True
+            merge_test_centers: True
+    

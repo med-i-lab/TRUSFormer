@@ -1,0 +1,10 @@
+
+
+# TODO this is not tested
+
+_target_: src.driver.pytorch_lightning_experiment.FinetuningDriver
+
+defaults: 
+  /driver@pretrain: pretrain
+  /driver@finetune: finetune
+

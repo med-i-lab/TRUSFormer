@@ -1,0 +1,41 @@
+# @package _global_
+
+defaults:
+  - /driver: pretrain_tuffc
+  #- override /model@driver.config.model: vicreg_with_center_disc
+
+name: "prtrn_uva_needle_split_seed_${split_seed}_seed_${seed}"
+#name: vicreg_with_center_disc_control_no_gen_loss 
+project: tuffc #${oc.env:PROJECT}
+seed: ${oc.env:SEED,0}
+split_seed: ${oc.env:SPLIT_SEED,0}
+
+driver:
+  config:
+
+    callbacks: 
+      model_checkpoint: 
+        monitor: val/ssl/vicreg_loss
+    
+    datamodule:
+      splits:
+        cohort_specifier: ['UVA600']
+        merge_val_centers: True
+        merge_test_centers: True
+      
+      loader_config: 
+        balance_classes_train: true
+      
+      minimum_involvement: 0.4
+
+      patch_view_config: 
+        needle_region_only: True 
+        prostate_region_only: True 
+        patch_strides: [1, 1]
+
+    trainer: 
+      min_epochs: 200 
+
+    logger:
+      wandb: 
+        group: pretrain_uva_needle

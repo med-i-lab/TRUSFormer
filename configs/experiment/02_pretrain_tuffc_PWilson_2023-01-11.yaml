@@ -1,0 +1,47 @@
+# @package _global_
+
+defaults:
+  - /driver: pretrain_tuffc
+  - override /datamodule@driver.config.datamodule: ssl_tuffc_2023-01-11.yaml
+  #- override /model@driver.config.model: vicreg_with_center_disc
+
+name: "prtrn_uva_needle_region_only_split_seed_${split_seed}_seed_${seed}_test"
+#name: vicreg_with_center_disc_control_no_gen_loss 
+project: tuffc #${oc.env:PROJECT}
+seed: ${oc.env:SEED,0}
+split_seed: ${oc.env:SPLIT_SEED,0}
+
+driver:
+  config:
+    callbacks: 
+      model_checkpoint: 
+        monitor: val/ssl/vicreg_loss
+    
+    datamodule:
+      splits:
+        cohort_specifier: ['UVA600']
+        merge_val_centers: True
+        merge_test_centers: True
+      
+      loader_config: 
+        balance_classes_train: true
+      
+      minimum_involvement: 0.4
+
+      patch_selection_options: 
+        patch_size_mm: [5, 5]
+        patch_strides_mm: [1, 1]
+        needle_region_overlap_threshold: 0.6
+        prostate_region_overlap_threshold: 0.9
+        discard_inside_needle: 1
+        discard_inside_prostate: 1
+        discard_outside_prostate: 0
+        selection_seed: 0
+
+    trainer: 
+      min_epochs: 200 
+
+    logger:
+      wandb: 
+        group: pretrain_uva_needle_plus_0.75
+

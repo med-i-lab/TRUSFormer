@@ -1,0 +1,23 @@
+_target_: src.lightning.callbacks.online_evaluation.OnlineEvaluation
+
+defaults:
+  - _self_
+  - /datamodule@datamodule: sl_tuffc.yaml  
+  - /metrics@metrics_fn: patchwise_corewise
+  - /datamodule/splits@datamodule.splits: train_uva_test_both
+
+num_classes: 2
+num_epochs_per_run: 50 
+evaluate_once_on_epoch: 0 #override this
+evaluate_every_n_epochs: null #override this
+log_best_only: false
+lr: 1e-4
+weight_decay: 1e-6
+scheduler_epochs: 100
+warmup_epochs: 10
+patience: 5
+monitored_metric: "patch_UVA_auroc"
+finetune: true #override this
+linear_layer_seed: 0
+prefix: control_train_uva # override this
+

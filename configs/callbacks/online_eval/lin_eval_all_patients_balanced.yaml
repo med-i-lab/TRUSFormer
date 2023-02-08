@@ -1,0 +1,11 @@
+# linear evaluation callback for all data centers
+
+_target_: src.lightning.callbacks.online_evaluation.OnlineEvaluation
+
+defaults:
+  - online_base
+  - _self_
+  - override /datamodule: sl_all_patients_balanced
+monitored_metric: "patch_macro_avg_auroc"
+finetune: false
+prefix: linear_evaluation

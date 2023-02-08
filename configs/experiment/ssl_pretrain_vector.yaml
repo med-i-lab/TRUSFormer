@@ -1,0 +1,36 @@
+# @package _global_
+
+defaults:
+  - override /driver: pretrain
+  - override /log_dir: preemptible
+  - _self_
+
+split_seed: 0
+name: allctr_ssl_rsnt10_splt_sd_${split_seed}
+
+job_id: 8673118
+
+driver: 
+  config: 
+
+    datamodule:
+      splits: 
+        merge_val_centers: True 
+        merge_test_centers: True
+        train_val_split_seed: 0
+
+    callbacks:
+      online_evaluation:
+        num_epochs: 30
+        datamodule:
+          splits: 
+            merge_val_centers: True 
+            merge_test_centers: True
+
+    logger: 
+      wandb: 
+        id: ${job_id}
+
+auto_resume: True
+
+

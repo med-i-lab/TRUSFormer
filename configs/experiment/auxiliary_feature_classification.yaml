@@ -1,0 +1,39 @@
+# @package _global_
+
+defaults: 
+  - /model/auxiliary_feature_classification@driver.config.model: position_regressor
+  - override /callbacks@driver.config.callbacks: finetune_paul
+  
+driver:
+  config:
+    test: True
+    datamodule: 
+      splits: 
+        cohort_specifier: ['UVA600', 'CRCEO428']
+      patch_view_config: 
+        needle_region_only: False
+    model: 
+      backbone:   
+        # _target_: src.lightning.lightning_modules.supervised.supervised_patch_model.SupervisedPatchModelWithCenterDiscriminator.load_from_checkpoint
+        # checkpoint_path: ${named_checkpoint:fully_supervised}
+        # _target_: src.lightning.lightning_modules.self_supervised.vicreg.VICRegWithCenterDisc.load_from_checkpoint
+        # checkpoint_path: ${named_checkpoint:vicreg_uva_and_crceo_pretrain}
+        _target_: src.modeling.registry.create_model
+        model_name: resnet10_feature_extractor
+      finetune: True
+      
+    trainer: 
+      max_epochs: 25
+
+    # add test as val
+    # callbacks:
+    #   model_checkpoint:
+    #     monitor: val_auroc # name of the logged metric which determines when model is improving
+
+        
+split_seed: ${oc.env:SPLIT_SEED,0}
+seed: ${oc.env:SEED,0}
+
+
+name: finetune_from_random_position_regression_full_prostate_uva600_crceo428
+project: vicreg_with_disc

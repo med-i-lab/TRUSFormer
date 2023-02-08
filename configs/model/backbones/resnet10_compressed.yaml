@@ -1,0 +1,2 @@
+_target_: src.modeling.registry.resnet10_compressed
+compress_to: 64

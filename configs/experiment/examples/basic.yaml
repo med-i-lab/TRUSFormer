@@ -1,0 +1,23 @@
+# @package _global_
+
+# ==============================================================================
+# Example of a basic experiment configuration file.
+# ==============================================================================
+
+# most basic configuration to run an example, and demonstrate the use of hydra. 
+
+# 1. 
+# First, we notice the directive at line 1 which tells hydra
+# to interpret configs in this file at the top level of the config.
+# This needs to be done at the first line of the file.
+
+# 2. 
+# all we need to do is instantiate the driver which runs the experiment. We specify the 
+# path to the driver in the source code, and the settings.
+driver: 
+  _target_: src.driver.example.BasicExample
+  setting1: 'Hello'
+  setting2: 'World'
+
+# now to run the experiment, you just need to tell hydra to add this file to the config:
+# python main.py experiment=examples/basic.yaml

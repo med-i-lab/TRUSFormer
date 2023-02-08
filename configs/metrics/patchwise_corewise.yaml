@@ -1,0 +1,11 @@
+
+# instantiates a metrics calculator that computes patchwise and corewise metrics
+
+_target_: src.utils.metrics.PatchwiseAndCorewiseMetrics
+
+metrics:  
+  - "auroc"
+  - "avg_prec"
+  - "acc_macro"
+  - "acc_micro"
+  - "spe_at_85_sens"

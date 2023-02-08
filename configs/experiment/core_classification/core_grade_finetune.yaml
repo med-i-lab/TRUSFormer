@@ -1,0 +1,47 @@
+# @package _global_
+
+defaults:
+  - override /driver: finetune
+  - override /datamodule@driver.config.datamodule: concatenated_cores
+  - override /model@driver.config.model: core_grade_finetuner
+  - override /callbacks@driver.config.callbacks: core_finetune
+  # - override /datamodule/splits@driver.config.datamodule.splits: uva600 # for testing
+
+
+name: "Grading_Multattn-sl_uva600-centrs_ssl-pretrain_all-centrs_bsz5"
+seed: 0
+split_seed: 1
+
+driver:
+  config:
+    datamodule:
+      loader_config: 
+        batch_size: 5
+      splits:
+        # undersample_benign_train: True
+        # undersample_benign_eval: True
+        cohort_specifier: ['UVA', 'CRCEO', 'PMCC', 'PCC']
+        test_as_val: True
+
+    model:
+      semi_sup: False
+      batch_size: ${driver.config.datamodule.loader_config.batch_size}
+      num_classes: 3
+      backbone:
+        model_name: vicreg_resnet10_pretrn_allcntrs_noPrst_ndl_crop
+        split_seed: ${split_seed}
+
+    callbacks:
+      metric_logger:
+        num_classes: ${driver.config.model.num_classes}
+      model_checkpoint:
+        monitor: val/finetune_acc_macro
+
+    trainer:
+      num_sanity_val_steps: 0  
+
+    logger:
+      wandb:
+        tags: ["explore", "core_grading"]
+        entity: mahdigilany
+        project: explore_fall22

@@ -1,0 +1,15 @@
+# @package _global_
+
+defaults:
+  - override /driver: train
+
+name: "sl_all-centers"
+seed: 0
+split_seed: 0
+
+driver:
+  config:
+    datamodule:
+      splits:
+        train_val_split_seed: 0
+

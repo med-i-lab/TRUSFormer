@@ -1,0 +1,10 @@
+defaults: 
+  - core_finetuner_base
+
+_target_: src.lightning.lightning_modules.self_supervised.finetune.CoreGradeFinetuner
+
+backbone:
+  _target_: src.modeling.registry.create_model
+  model_name: vicreg_resnet10_pretrn_allcntrs_noPrst_ndl_crop
+
+num_classes: 3

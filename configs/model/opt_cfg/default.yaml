@@ -1,0 +1,19 @@
+
+learning_rate: 0.0003
+weight_decay: 1.0e-06
+nesterov: false
+gamma: 0.1
+optim_algo: Novograd
+extra_opt_args: {}
+lars_options: null
+scheduler_options:
+  warmup_epochs: 5
+  warmup_start_lr: 0.0
+  min_lr: 0.0
+  scheduler_interval: step
+  final_lr: 0.0
+  decay_epochs:
+  - 60
+  - 80
+  scheduler_type: warmup_cosine
+  max_epochs: ${...epochs}

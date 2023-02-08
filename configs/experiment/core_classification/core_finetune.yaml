@@ -1,0 +1,37 @@
+# @package _global_
+
+defaults:
+  - override /driver: finetune
+  - override /datamodule@driver.config.datamodule: concatenated_cores
+  - override /model@driver.config.model: core_finetuner
+  - override /callbacks@driver.config.callbacks: core_finetune
+  # - override /datamodule/splits@driver.config.datamodule.splits: uva600 # for testing
+
+
+name: "Multattn-sl_all-centrs_ssl-pretrain_all-centrs_bsz5"
+seed: 0
+split_seed: 1
+
+driver:
+  config:
+    datamodule:
+      loader_config: 
+        batch_size: 5
+      splits:
+        # undersample_benign_train: True
+        # undersample_benign_eval: True
+        cohort_specifier: ['UVA', 'CRCEO', 'PMCC', 'PCC']
+        test_as_val: True
+
+    model:
+      semi_sup: False
+      batch_size: ${driver.config.datamodule.loader_config.batch_size}
+      backbone:
+        model_name: vicreg_resnet10_pretrn_allcntrs_noPrst_ndl_crop
+        split_seed: ${split_seed}
+
+    logger:
+      wandb:
+        tags: ["explore", "core_finetune"]
+        entity: mahdigilany
+        project: explore_fall22

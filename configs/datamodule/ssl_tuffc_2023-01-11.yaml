@@ -1,0 +1,26 @@
+_target_: src.data.exact.dataset.patches_dataset_seperate_regions.RFPatchesDataModule
+
+defaults: 
+  - transform@train_transform: default
+  - transform@eval_transform: no_augs
+  - splits: uva600_old
+
+ssl_mode: true
+
+loader_config: 
+  batch_size: 64
+  num_workers: 8 
+  balance_classes_train: True
+  train_strategy_ddp: False
+
+minimum_involvement: 0.4
+
+patch_selection_options: 
+  patch_size_mm: [5, 5]
+  patch_strides_mm: [1, 1]
+  needle_region_overlap_threshold: 0.6
+  prostate_region_overlap_threshold: 0.9
+  discard_inside_needle: null
+  discard_inside_prostate: 1
+  discard_outside_prostate: 1
+  selection_seed: 0

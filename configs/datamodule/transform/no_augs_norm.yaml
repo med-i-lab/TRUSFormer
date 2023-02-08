@@ -1,0 +1,10 @@
+defaults: 
+  - transform_config_base 
+
+us_augmentation: null
+tensor_transform: null
+
+norm:
+  mode: "global"
+  type: "z-score"
+  truncate: False

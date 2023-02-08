@@ -1,0 +1,12 @@
+defaults: 
+ - splits_config_base
+ - _self_ 
+
+cohort_specifier: ["CRCEO", "JH", "PCC", "PMCC", "UVA"]
+undersample_benign_train: True
+undersample_benign_eval: True
+train_val_split_seed: ${split_seed}
+train_val_ratio: 0.2
+merge_val_centers: True
+merge_test_centers: True
+

@@ -1,0 +1,55 @@
+# ========================
+# TOP LEVEL CONFIG FILE
+# ========================
+
+# ********* IMPORTANT *********
+# THIS SHOULD NOT BE MODIFIED.
+# IT CAN BE SAFELY IGNORED.
+# To configure your experiment, you need to create a new experiment config file, 
+# in the configs/experiment folder.
+# You can use the configs/experiment/examples folder as a template.
+# Then run the program by specifying the path to your experiment config file, e.g.:
+# `python main.py experiment=examples/basic.yaml`
+# *****************************
+
+# This is the top level config file for the project.
+# It only specifies certain defaults that are used by all experiments.
+# It mainly configures hydra defaults, and assigns a name to the experiment.
+defaults:
+  - _self_
+  - log_dir: default
+  - experiment: null
+
+  # optional local config for machine/user specific settings
+  # it's optional since it doesn't need to exist and is excluded from version control
+  - optional local: default.yaml
+
+  # enable color logging
+  - override hydra/hydra_logging: colorlog
+  - override hydra/job_logging: colorlog
+  - override hydra/sweeper: optuna
+  
+# default name for the experiment, determines logging folder path
+# (you can overwrite this name in experiment configs)
+name: default
+resume_id: ${oc.env:RESUME_ID,null} # if you set RUN_ID it may be used to resume previous runs
+id: ${uuid:} # unique id for this run
+
+# path to original working directory
+# hydra hijacks working directory by changing it to the new log directory
+# https://hydra.cc/docs/next/tutorials/basic/running_your_app/working_directory
+original_work_dir: ${hydra:runtime.cwd}
+
+
+# ======================= 
+# UNUSED: 
+# seed for random number generators in pytorch, numpy and python.random
+# seed: 1
+
+# checkpoint_dir: checkpoints
+
+# auto_resume: False
+# job_id: null
+
+# project: ${oc.env:PROJECT,default}
+

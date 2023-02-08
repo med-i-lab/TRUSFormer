@@ -1,0 +1,11 @@
+defaults:
+ - supervised_patch_model_base 
+ - opt_cfg: default
+ - _self_
+
+
+_target_: src.lightning.lightning_modules.supervised.supervised_patch_model.SupervisedModel
+backbone_name: resnet10
+batch_size: ${driver.config.datamodule.loader_config.batch_size}
+epochs: ${driver.config.trainer.max_epochs}
+loss_weights: null

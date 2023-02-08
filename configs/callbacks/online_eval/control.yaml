@@ -1,0 +1,11 @@
+_target_: src.lightning.callbacks.online_evaluation.OnlineEvaluation
+
+defaults:
+  - base
+  - _self_
+  - override /datamodule/splits@datamodule.splits: train_uva_test_both
+
+evaluate_once_on_epoch: 0
+evaluate_every_n_epochs: null 
+finetune: true
+prefix: control_train_uva

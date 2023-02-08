@@ -1,0 +1,10 @@
+defaults: 
+ - splits_config_base
+
+cohort_specifier: [UVA600]
+
+train_val_split_seed: ${oc.env:SPLIT_SEED,0}
+train_val_ratio: .25
+
+merge_val_centers: True
+merge_test_centers: True

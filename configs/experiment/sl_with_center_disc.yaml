@@ -1,0 +1,51 @@
+
+# @package _global_
+
+defaults: 
+  - override /driver: train 
+  - override /datamodule@driver.config.datamodule: sl_datamodule
+  - override /model@driver.config.model: supervised_with_center_disc_base
+  - override /callbacks@driver.config.callbacks: train_sl
+  - override /datamodule/transform@driver.config.datamodule.patch_transform_train: crops_plus_ultrasound_augs_light
+
+driver: 
+  config:
+    #datamodule: 
+    #  patch_transform_train: 
+    #    norm: 
+    #      mode: global
+    #  patch_transform_eval: 
+    #    norm: 
+    #      mode: global
+    datamodule: 
+      splits: 
+        train_val_ratio: 0.3
+
+    model: 
+      backbone: 
+        _target_: src.modeling.registry.create_model
+        model_name: resnet10_feature_extractor
+      mlp_hidden_layers: 3
+      mlp_dropout: 0.5
+      opt_cfg: 
+        #optim_algo: "Novograd"
+        learning_rate: 1e-4
+        scheduler_options: null
+
+      disc_options: 
+        disc_to_main_loss_ratio_initial: 10
+        disc_to_main_loss_ratio_final: 10
+        disc_opt_cfg: 
+          learning_rate: 1e-4
+          scheduler_options: null
+        optimization_cycle: [1, 1]
+
+    callbacks: 
+    
+      model_checkpoint: 
+        monitor: 'val/patch_micro_avg_auroc'
+    
+    
+
+split_seed: 0 
+name: supervised_instance_norm_disc_weight_0_lr1e-4_dropout_augs

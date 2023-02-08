@@ -1,0 +1,21 @@
+
+_target_: src.driver.pytorch_lightning_experiment.TrainingDriver
+_recursive_: false 
+
+defaults:
+  
+  - /datamodule@config.datamodule: sl_datamodule
+  - /callbacks@config.callbacks: finetune.yaml
+  - /logger@config.logger: wandb 
+  - /trainer@config.trainer: default.yaml
+  - /model@config.model: supervised
+
+config: 
+  
+  datamodule:
+    loader_config: 
+      batch_size: 32
+    splits:
+      undersample_benign_eval: True
+  
+  seed: ${seed}

@@ -1,0 +1,21 @@
+_target_: src.data.exact.segmentation_transforms.SegmentationTransform
+
+# use_augmentations=True,
+# equalize_hist=False,
+# random_rotate=True,
+# grid_distortion=True,
+# horizontal_flip=True,
+# gaussian_blur=True,
+# random_brightness=True,
+# to_tensor=True,
+# out_size=(512, 512),
+
+use_augmentations: True
+equalize_hist: False 
+random_rotate: False
+grid_distortion: True
+horizontal_flip: True
+gaussian_blur: True
+random_brightness: True
+to_tensor: True
+out_size: [512, 512]

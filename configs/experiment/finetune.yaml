@@ -1,0 +1,15 @@
+# @package _global_
+
+defaults:
+  - override /driver: finetune
+
+
+name: "finetune_UVA600_no-pretrain"
+seed: 0
+split_seed: 0
+
+driver:
+  config:
+
+    model:
+      semi_sup: True

@@ -1,0 +1,8 @@
+# @package _global_
+
+driver: 
+  config: 
+    callbacks: 
+      model_checkpoint: 
+        monitor: val_axial_r2
+

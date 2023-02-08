@@ -1,0 +1,14 @@
+
+_target_: src.driver.pytorch_lightning_experiment.PretrainingDriver
+_recursive_: false 
+
+defaults:
+  - _self_
+  - /datamodule@config.datamodule: ssl_tuffc
+  - /model@config.model: vicreg
+  - /callbacks@config.callbacks: 01_pretrain_tuffc_2023-01-29
+  - /logger@config.logger: wandb # set logger here or use command line (e.g. `python train.py logger=tensorboard`)
+  - /trainer@config.trainer: pretrain.yaml
+
+config: 
+  seed: ${seed}
