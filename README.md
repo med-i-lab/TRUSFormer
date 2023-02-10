@@ -77,6 +77,6 @@ python main.py experiment=examples/mnist.yaml
 
 For our paper "TRUSformer: Improving Prostate Cancer Detection from Micro-Ultrasound Using Attention and Self-Supervision", the main config file to run the experiment is `configs/experiment/experiment=01_TRUSFormer_reprod_PWilson_2023-01-19`. To see the full configuration, run
 ```bash 
-python main.py experiment=experiment=01_TRUSFormer_reprod_PWilson_2023-01-19 --cfg job
+python main.py experiment=01_TRUSFormer_reprod_PWilson_2023-01-19 --cfg job
 ```
 
