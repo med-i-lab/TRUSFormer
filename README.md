@@ -46,6 +46,36 @@ and fill in the required field (at a minimum, you will likely want need to fill 
  ``` 
  (you'll be prompted to log in to WandB) or simply walk through the notebook `notebooks/1_onboarding_Mohamed_Harmanani_2023-01-30.ipynb` to get a sense of what to do with the repo. 
  
+
+
+## TRUSFormer
+
+For our paper "TRUSformer: Improving Prostate Cancer Detection from Micro-Ultrasound Using Attention and Self-Supervision", the main config file to run the experiment is `configs/experiment/experiment=01_TRUSFormer_reprod_PWilson_2023-01-19`. To see the full configuration, run
+```bash 
+python main.py experiment=01_TRUSFormer_reprod_PWilson_2023-01-19 --cfg job
+```
+
+### Pretrain
+To pretrain the backbone network (ResNet) using VICReg (Bardes, 2022), run
+```bash
+python main.py experiment=ssl_pretrain.yaml
+```
+
+### Finetune on ROIs (Wilson, 2022 [16])
+To train a linear classifier on top of the pre-trained backbone network (ResNet) using ROI data from needle region (noisy label), run
+```bash
+python main.py experiment=finetune.yaml
+```
+Note that the pre-trained weights are loaded from a model named `vicreg_resnet10_pretrn_allcntrs_noPrst_ndl_crop` registered in `src/modeling/registry/registry.py`. To load your own pre-trained weights after pretraining, create a new function in `registry.py` and change the model_name in the config file.
+
+### Finetune on cores (1-layer TRUSformer)
+To train an 1-layer transformer on top of the pre-trained backbone (ResNet) using all aggregated ROI embeddings of cores, run
+```bash
+python main.py experiment=core_classification/core_finetune.yaml
+```
+Note that the pre-trained weights are loaded from a model named `vicreg_resnet10_pretrn_allcntrs_noPrst_ndl_crop` registered in `src/modeling/registry/registry.py`. To load your own pre-trained weights after pretraining, create a new function in `registry.py` and change the model_name in the config file.
+
+
 ## Implementing your own training loop
 Don't be intimidated by hydra. Is just a very sophisticated `yaml` parser! Hydra lets you tell `main.py` what configurations to run. Try running it with no experiment specified: 
 ```bash
@@ -76,32 +106,6 @@ To see another example that actually does something, run:
 python main.py experiment=examples/mnist.yaml
 ```
 
-## TRUSFormer
-
-For our paper "TRUSformer: Improving Prostate Cancer Detection from Micro-Ultrasound Using Attention and Self-Supervision", the main config file to run the experiment is `configs/experiment/experiment=01_TRUSFormer_reprod_PWilson_2023-01-19`. To see the full configuration, run
-```bash 
-python main.py experiment=01_TRUSFormer_reprod_PWilson_2023-01-19 --cfg job
-```
-
-### Pretrain
-To pretrain the backbone network (ResNet) using VICReg (Bardes, 2022), run
-```bash
-python main.py experiment=ssl_pretrain.yaml
-```
-
-### Finetune on ROIs (Wilson, 2022 [16])
-To train a linear classifier on top of the pre-trained backbone network (ResNet) using ROI data from needle region (noisy label), run
-```bash
-python main.py experiment=finetune.yaml
-```
-Note that the pre-trained weights are loaded from a model named `vicreg_resnet10_pretrn_allcntrs_noPrst_ndl_crop` registered in `src/modeling/registry/registry.py`. To load your own pre-trained weights after pretraining, create a new function in `registry.py` and change the model_name in the config file.
-
-### Finetune on cores (1-layer TRUSformer)
-To train an 1-layer transformer on top of the pre-trained backbone (ResNet) using all aggregated ROI embeddings of cores, run
-```bash
-python main.py experiment=core_classification/core_finetune.yaml
-```
-Note that the pre-trained weights are loaded from a model named `vicreg_resnet10_pretrn_allcntrs_noPrst_ndl_crop` registered in `src/modeling/registry/registry.py`. To load your own pre-trained weights after pretraining, create a new function in `registry.py` and change the model_name in the config file.
 
 ## Citation
 
