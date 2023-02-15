@@ -60,20 +60,28 @@ To pretrain the backbone network (ResNet) using VICReg (Bardes, 2022), run
 ```bash
 python main.py experiment=ssl_pretrain.yaml
 ```
-
-### Finetune on ROIs (Wilson, 2022 [16])
-To train a linear classifier on top of the pre-trained backbone network (ResNet) using ROI data from needle region (noisy label), run
-```bash
-python main.py experiment=finetune.yaml
-```
-Note that the pre-trained weights are loaded from a model named `vicreg_resnet10_pretrn_allcntrs_noPrst_ndl_crop` registered in `src/modeling/registry/registry.py`. To load your own pre-trained weights after pretraining, create a new function in `registry.py` and change the model_name in the config file.
-
 ### Finetune on cores (1-layer TRUSformer)
 To train an 1-layer transformer on top of the pre-trained backbone (ResNet) using all aggregated ROI embeddings of cores, run
 ```bash
 python main.py experiment=core_classification/core_finetune.yaml
 ```
 Note that the pre-trained weights are loaded from a model named `vicreg_resnet10_pretrn_allcntrs_noPrst_ndl_crop` registered in `src/modeling/registry/registry.py`. To load your own pre-trained weights after pretraining, create a new function in `registry.py` and change the model_name in the config file.
+
+### Finetune on cores (Attention MIL [22])
+To train Attention MIL model (Ilse et al. 2018) on top of the pre-trained backbone (ResNet) using all aggregated ROI embeddings of cores, run
+```bash
+python main.py experiment=core_classification/core_finetune.yaml
+```
+Note that the pre-trained weights are loaded from a model named `vicreg_resnet10_pretrn_allcntrs_noPrst_ndl_crop` registered in `src/modeling/registry/registry.py`. To load your own pre-trained weights after pretraining, create a new function in `registry.py` and change the model_name in the config file.
+
+### Finetune on ROIs (Wilson et al. 2022 [16])
+To train a linear classifier on top of the pre-trained backbone network (ResNet) using ROI data from needle region (noisy label), run
+```bash
+python main.py experiment=finetune.yaml
+```
+Note that the pre-trained weights are loaded from a model named `vicreg_resnet10_pretrn_allcntrs_noPrst_ndl_crop` registered in `src/modeling/registry/registry.py`. To load your own pre-trained weights after pretraining, create a new function in `registry.py` and change the model_name in the config file.
+
+
 
 
 ## Implementing your own training loop
