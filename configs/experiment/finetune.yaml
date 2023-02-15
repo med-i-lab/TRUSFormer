@@ -4,12 +4,19 @@ defaults:
   - override /driver: finetune
 
 
-name: "finetune_UVA600_no-pretrain"
+name: "finetune_all-centrs_ssl-pretrain_all-centrs"
 seed: 0
 split_seed: 0
 
 driver:
   config:
 
+    datamodule:
+      splits:
+        test_as_val: True
+
     model:
-      semi_sup: True
+      semi_sup: False
+      backbone:
+        model_name: vicreg_resnet10_pretrn_allcntrs_noPrst_ndl_crop
+        split_seed: ${split_seed}

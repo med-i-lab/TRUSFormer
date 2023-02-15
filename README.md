@@ -1,5 +1,8 @@
-# TRUSnet
-Research code for ai-based automatic prostate cancer detection
+TRUSFormer: Improving Prostate Cancer Detection from Micro-Ultrasound Using Attention and Self-Supervision
+============================================
+![](multimedia/IPCAI_method(4).png)
+Research code for ai-based automatic prostate cancer detection: [TRUSFormer: Improving Prostate Cancer Detection from Micro-Ultrasound Using Attention and Self-Supervision]()
+
 
 ## Summary
 This repository provides access to dataset and algorithm implementations for PCA detection, as well as useful library code for preprocessing, data augmentations, visualization, analysis, etc. It is designed to be as flexible as possible and serve as a one-stop-shop for these implementations. 
@@ -80,3 +83,39 @@ For our paper "TRUSformer: Improving Prostate Cancer Detection from Micro-Ultras
 python main.py experiment=01_TRUSFormer_reprod_PWilson_2023-01-19 --cfg job
 ```
 
+### Pretrain
+To pretrain the backbone network (ResNet) using VICReg (Bardes, 2022), run
+```bash
+python main.py experiment=ssl_pretrain.yaml
+```
+
+### Finetune on ROIs (Wilson, 2022 [16])
+To train a linear classifier on top of the pre-trained backbone network (ResNet) using ROI data from needle region (noisy label), run
+```bash
+python main.py experiment=finetune.yaml
+```
+Note that the pre-trained weights are loaded from a model named `vicreg_resnet10_pretrn_allcntrs_noPrst_ndl_crop` registered in `src/modeling/registry/registry.py`. To load your own pre-trained weights after pretraining, create a new function in `registry.py` and change the model_name in the config file.
+
+### Finetune on cores (1-layer TRUSformer)
+To train an 1-layer transformer on top of the pre-trained backbone (ResNet) using all aggregated ROI embeddings of cores, run
+```bash
+python main.py experiment=core_classification/core_finetune.yaml
+```
+Note that the pre-trained weights are loaded from a model named `vicreg_resnet10_pretrn_allcntrs_noPrst_ndl_crop` registered in `src/modeling/registry/registry.py`. To load your own pre-trained weights after pretraining, create a new function in `registry.py` and change the model_name in the config file.
+
+## Citation
+
+If you find this code useful, please consider citing our paper:
+
+> Mahdi Gilany*, Paul Wilson*, Andrea Perera-Ortega, Amoon Jamzad,  Minh To, Fahimeh Fooladgar, Brian Wodlinger, Purang Abolmaesumi, Parvin Mousavi. (2023s). TRUSformer: Improving Prostate Cancer Detection from Micro-Ultrasound Using Attention and Self-Supervision 
+
+\* indicates equal contribution
+
+```bibtex
+@article{wilson2022self,
+  title={TRUSformer: Improving Prostate Cancer Detection from Micro-Ultrasound Using Attention and Self-Supervision},
+  author={Gilany*, Mahdi and Wilson*, Paul FR and Perera-Ortega, Andrea and Jamzad, Amoon and To, Minh Nguyen Nhat and Fooladgar, Fahimeh and Wodlinger, Brian and Abolmaesumi, Purang and Mousavi, Parvin},
+  journal={},
+  year={2023}
+}
+```

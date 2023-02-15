@@ -8,35 +8,36 @@ defaults:
   # - override /datamodule/splits@driver.config.datamodule.splits: uva600 # for testing
 
 
-name: "Multattn-sl_all-centrs_ssl-pretrain_all-centrs_bsz5"
+name: "AttnMIL-sl_all-centrs_bsz5_semi-sup"
 seed: 0
-split_seed: 1
+split_seed: 0
 
-driver:
+driver:    
   config:
 
     trainer: 
       accumulate_grad_batches: 5
       num_sanity_val_steps: 0
-
+    
     datamodule:
       loader_config: 
         batch_size: 1
       splits:
         # undersample_benign_train: True
         # undersample_benign_eval: True
-        cohort_specifier: ['UVA', 'CRCEO', 'PMCC', 'PCC', 'JH']
         test_as_val: True
 
     model:
-      semi_sup: False
-      batch_size: ${driver.config.datamodule.loader_config.batch_size}
+      batch_size: ${eval_str:'${driver.config.datamodule.loader_config.batch_size} * ${driver.config.trainer.accumulate_grad_batches}'}
+      semi_sup: True
+      head_network:
+        model_name: "attention_MIL"
       backbone:
-        model_name: vicreg_resnet10_pretrn_allcntrs_noPrst_ndl_crop
-        split_seed: ${split_seed}
+        _target_: src.modeling.registry.create_model
+        model_name: resnet10_feature_extractor
 
     logger:
       wandb:
-        tags: ["explore", "core_finetune"]
+        tags: ["IPCAI", "core_AttMIL"]
         entity: mahdigilany
-        project: explore_fall22
+        project: IPCAI

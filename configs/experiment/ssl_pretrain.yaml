@@ -4,25 +4,25 @@ defaults:
   - override /driver: pretrain
 
 name: "ssl-pretrain_all_data"
-seed: 1
+seed: 0
 split_seed: 0
 
 driver:
   config:
 
     model: 
-      backbone_name: resnet18_feature_extractor
+      backbone_name: resnet10_feature_extractor
 
     datamodule:
       splits:
         merge_val_centers: True
         merge_test_centers: True
-        train_val_split_seed: 0
+        train_val_split_seed: ${split_seed}
       
       loader_config: 
         balance_classes_train: false 
       
-      minimum_involvement: 0
+      minimum_involvement: 0.4
 
       patch_view_config: 
         needle_region_only: false
