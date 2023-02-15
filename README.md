@@ -70,7 +70,7 @@ Note that the pre-trained weights are loaded from a model named `vicreg_resnet10
 ### Finetune on cores (Attention MIL [22])
 To train Attention MIL model (Ilse et al. 2018) on top of the pre-trained backbone (ResNet) using all aggregated ROI embeddings of cores, run
 ```bash
-python main.py experiment=core_classification/core_finetune.yaml
+python main.py experiment=core_classification/core_attn_mil.yaml
 ```
 Note that the pre-trained weights are loaded from a model named `vicreg_resnet10_pretrn_allcntrs_noPrst_ndl_crop` registered in `src/modeling/registry/registry.py`. To load your own pre-trained weights after pretraining, create a new function in `registry.py` and change the model_name in the config file.
 
@@ -114,17 +114,19 @@ To see another example that actually does something, run:
 python main.py experiment=examples/mnist.yaml
 ```
 
+## Software and Hardware Specs
+Experiments were run on a standard desktop with a single NVIDIA TITAN X GPU (24 GB GPU RAM), Intel(R) Core(TM) i9-9900X CPU @ 3.50GHz processor, running Ubuntu 22.05, Python 3.9 and Pytorch 1.13. With this configuration, each experiment took about 4 hours for stage 1, and 2 hours for stage 2 of our method. Although the total size of the dataset was 100 GB, we used memory mapping and only selected patches within the needle region, hence the CPU RAM footprint was kept under 8 GB.
 
 ## Citation
 
 If you find this code useful, please consider citing our paper:
 
-> Mahdi Gilany*, Paul Wilson*, Andrea Perera-Ortega, Amoon Jamzad,  Minh To, Fahimeh Fooladgar, Brian Wodlinger, Purang Abolmaesumi, Parvin Mousavi. (2023s). TRUSformer: Improving Prostate Cancer Detection from Micro-Ultrasound Using Attention and Self-Supervision 
+> Mahdi Gilany*, Paul Wilson*, Andrea Perera-Ortega, Amoon Jamzad,  Minh To, Fahimeh Fooladgar, Brian Wodlinger, Purang Abolmaesumi, Parvin Mousavi. (2023). TRUSformer: Improving Prostate Cancer Detection from Micro-Ultrasound Using Attention and Self-Supervision 
 
 \* indicates equal contribution
 
 ```bibtex
-@article{wilson2022self,
+@article{,
   title={TRUSformer: Improving Prostate Cancer Detection from Micro-Ultrasound Using Attention and Self-Supervision},
   author={Gilany*, Mahdi and Wilson*, Paul FR and Perera-Ortega, Andrea and Jamzad, Amoon and To, Minh Nguyen Nhat and Fooladgar, Fahimeh and Wodlinger, Brian and Abolmaesumi, Purang and Mousavi, Parvin},
   journal={},
