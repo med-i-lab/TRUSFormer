@@ -1,7 +1,7 @@
 TRUSFormer: Improving Prostate Cancer Detection from Micro-Ultrasound Using Attention and Self-Supervision
 ============================================
 ![](multimedia/IPCAI_method(4).png)
-Research code for ai-based automatic prostate cancer detection: [TRUSFormer: Improving Prostate Cancer Detection from Micro-Ultrasound Using Attention and Self-Supervision]()
+Research code for ai-based automatic prostate cancer detection: [TRUSFormer: Improving Prostate Cancer Detection from Micro-Ultrasound Using Attention and Self-Supervision](https://arxiv.org/abs/2303.02128)
 
 
 ## Summary
